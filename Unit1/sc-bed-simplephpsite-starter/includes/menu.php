@@ -8,13 +8,13 @@
                 <a class="navbar-brand" href="#">Learning PHP</a>
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/">Home</a>
+                        <a class="nav-link <?= $_SERVER['SCRIPT_NAME'] === '/index.php' ? 'active' : ''  ?>" aria-current="page" href="/">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="aboutphp.php">About PHP</a>
+                        <a class="nav-link <?= $_SERVER['SCRIPT_NAME'] === '/aboutphp.php' ? 'active' : ''  ?>" href="aboutphp.php">About PHP</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="aboutmariadb.php">About MariaDB</a>
+                        <a class="nav-link <?= $_SERVER['SCRIPT_NAME'] === '/aboutmariadb.php' ? 'active' : ''  ?>" href="aboutmariadb.php">About MariaDB</a>
                     </li>
                 </ul>
             </div>
