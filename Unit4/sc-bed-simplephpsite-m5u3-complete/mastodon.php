@@ -1,4 +1,29 @@
 <?php
+$mastodonDns = dns_get_record("mastodon.social", DNS_ALL);
+
+function getDnsRecordValue(array $record): int|string
+{
+    switch ($record['type']) {
+        case 'A':
+            return $record['ip'];
+        case 'MX':
+            return "{$record['pri']} {$record['target']}";
+        case 'TXT':
+            return $record['txt'];
+        case 'AAAA':
+            return $record['ipv6'];
+        case 'SOA':
+            return "{$record['mname']} {$record['rname']}";
+        case 'SRV':
+            return "{$record['pri']} {$record['weight']} {$record['target']}";
+        case 'CNAME':
+        case 'NS':
+        case 'PTR':
+            return $record['target'];
+        default:
+            return 'Unsupported record type';
+    }
+}
 function getMastodonPosts(string $tag)
 {
     $url = "https://mastodon.social/api/v1/timelines/tag/$tag?limit=12";
@@ -47,6 +72,27 @@ function getMastodonPosts(string $tag)
             <p>
                 Data retrieved from <a href="https://mastodon.social" target="_blank">mastodon.social</a>
             </p>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Record Type</th>
+                        <th>Value</th>
+                        <th>TTL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    foreach ($mastodonDns as $key => &$value) {
+                        echo '<tr>';
+                        echo "<td>{$value['type']}</td>";
+                        echo '<td>' . getDnsRecordValue($value) . '</td>';
+                        echo "<td>{$value['ttl']}</td>";
+                        echo '</tr>';
+                    }
+                    ?>
+                </tbody>
+            </table>
         </div>
 
 
